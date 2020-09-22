@@ -7,8 +7,14 @@ app.set('view engine', 'ejs');
 // Use
 app.use(express.static(__dirname + '/public'));
 
+// Landing page
 app.get('/', (req, res) => {
     res.render('landing');
+})
+
+// INDEX - list all the bunnies
+app.get('/bunnies', (req, res) => {
+    res.render('index');
 })
 
 app.listen(7777, () => {
