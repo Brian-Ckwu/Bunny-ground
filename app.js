@@ -2,8 +2,10 @@ const express = require('express');
 
 const app = express();
 
-// Use the ejs file as the default view engine
+// Set the ejs file as the default view engine
 app.set('view engine', 'ejs');
+// Use
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     res.render('landing');
