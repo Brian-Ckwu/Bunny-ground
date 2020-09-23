@@ -7,6 +7,15 @@
   right: 8px;
 }
 
+.card {
+  margin-bottom: 2rem;
+}
+
+.card img {
+  height: 35vh;
+  object-fit: cover;
+}
+
 #navbar-container {
   position: relative;
 }
