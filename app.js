@@ -22,6 +22,11 @@ app.get('/register', (req, res) => {
     res.render('register');
 })
 
+app.post('/register', (req, res) => {
+    console.log(req.body);
+    res.send('You have submitted the form successfully!');
+})
+
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
 })
