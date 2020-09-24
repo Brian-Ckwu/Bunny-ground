@@ -17,6 +17,11 @@ app.get('/bunnies', (req, res) => {
     res.render('index');
 })
 
+// Registration route
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
 })
