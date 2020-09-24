@@ -1,4 +1,5 @@
-const express = require('express');
+const express    = require('express'),
+      bodyParser = require('body-parser');
 
 const app = express();
 
@@ -6,6 +7,7 @@ const app = express();
 app.set('view engine', 'ejs');
 // Use
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Landing page
 app.get('/', (req, res) => {
