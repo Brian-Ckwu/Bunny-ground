@@ -19,6 +19,8 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }))
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -51,6 +53,16 @@ app.post('/register', (req, res) => {
         }
     })
 })
+
+// Login route
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/bunnies',
+    failureRedirect: '/login'
+}))
 
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
