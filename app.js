@@ -4,7 +4,8 @@ const express               = require('express'),
       expressSession        = require('express-session'),
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
-      User                  = require('./models/user');
+      User                  = require('./models/user'),
+      Bunny                 = require('./models/bunny');
 
 const app = express();
 
@@ -32,7 +33,17 @@ app.get('/', (req, res) => {
 
 // INDEX - list all the bunnies
 app.get('/bunnies', (req, res) => {
-    res.render('index');
+    res.render('./bunnies/index');
+})
+
+// NEW - show the form of creating the bunny's profile
+app.get('/bunnies/new', (req, res) => {
+    res.render('./bunnies/new');
+})
+
+// CREATE - create the bunny's profile according to the form
+app.post('/bunnies', (req, res) => {
+    console.log(req.body.bunny);
 })
 
 // Registration route
