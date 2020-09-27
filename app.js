@@ -5,9 +5,13 @@ const express               = require('express'),
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
       User                  = require('./models/user'),
-      Bunny                 = require('./models/bunny');
+      Bunny                 = require('./models/bunny'),
+      seedDB                = require('./seedDB');
 
 const app = express();
+
+// Seed the database
+seedDB();
 
 // Set the ejs file as the default view engine
 app.set('view engine', 'ejs');
@@ -33,7 +37,13 @@ app.get('/', (req, res) => {
 
 // INDEX - list all the bunnies
 app.get('/bunnies', (req, res) => {
-    res.render('./bunnies/index');
+    Bunny.find({}, (err, foundBunnies) => {
+        if (err) {
+            console.log(`Error from Bunny.find(): ${err}`);
+        }   else {
+            res.render('./bunnies/index', {bunnies: foundBunnies});
+        }
+    })
 })
 
 // NEW - show the form of creating the bunny's profile
@@ -43,7 +53,16 @@ app.get('/bunnies/new', (req, res) => {
 
 // CREATE - create the bunny's profile according to the form
 app.post('/bunnies', (req, res) => {
-    console.log(req.body.bunny);
+    const newBunny = req.body.bunny;
+    Bunny.create(newBunny, (err, createdBunny) => {
+        if (err) {
+            console.log(err);
+            res.redirect('/bunnies/new');
+        }   else {
+            console.log(createdBunny);
+            res.redirect('/bunnies');
+        }
+    })
 })
 
 // Registration route

@@ -1,5 +1,4 @@
-const mongoose              = require('mongoose'),
-      passportLocalMongoose = require('passport-local-mongoose');
+const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('Connect to the MongoDB!'))
@@ -12,8 +11,6 @@ const bunnySchema = new mongoose.Schema({
     description: String,
     image: String
 })
-
-bunnySchema.plugin(passportLocalMongoose);
 
 const Bunny = mongoose.model('Bunny', bunnySchema);
 

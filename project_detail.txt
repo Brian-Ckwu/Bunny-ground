@@ -1,0 +1,18 @@
+# Bunny model
+  // Back-end
+  - Store the bunny into the database (ok)
+  - Associate the bunny with the user
+    1. Models
+    2. Create route
+    3. SeedDB
+  - Extract the bunny data from the database
+  // Front-end
+  - Button for entering the new page
+  - Show the data in the show page
+
+# SeedDB file
+  // Back-end
+  - Delete the previous file (ok)
+  - Create the default bunnies to show on the page (ok)
+  // Front-end
+  - Display the default bunnies on the index page (ok)
