@@ -2,10 +2,10 @@
   // Back-end
   - Store the bunny into the database (ok)
   - Associate the bunny with the user
-    1. Models
-    2. Create route
+    1. Models (ok)
+    2. Create route (ok)
     3. SeedDB
-  - Extract the bunny data from the database
+  - Extract the bunny data from the database (ok)
   // Front-end
   - Button for entering the new page
   - Show the data in the show page
@@ -16,3 +16,8 @@
   - Create the default bunnies to show on the page (ok)
   // Front-end
   - Display the default bunnies on the index page (ok)
+
+# Authentication
+  - Middleware: isLoggedIn (ok)
+  - Routes
+    1. /bunnies/new (ok)

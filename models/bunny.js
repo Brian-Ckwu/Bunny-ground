@@ -9,7 +9,11 @@ const bunnySchema = new mongoose.Schema({
     sex: String,
     age: Number,
     description: String,
-    image: String
+    image: String,
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 const Bunny = mongoose.model('Bunny', bunnySchema);

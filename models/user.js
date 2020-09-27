@@ -7,7 +7,11 @@ mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useU
 
 const userSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    bunny: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bunny'
+    }
 })
 
 userSchema.plugin(passportLocalMongoose);

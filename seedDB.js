@@ -56,7 +56,7 @@ function seedDB() {
                 if (err) {
                     console.log(`Error from Bunny.insertMany(): ${err}`);
                 }   else {
-                    console.log(`Inserted bunnies: ${insertedBunnies}`);
+                    console.log(`Inserted bunnies: ${insertedBunnies.length}`);
                 }
             })
         }

@@ -11,11 +11,11 @@ const express               = require('express'),
 const app = express();
 
 // Seed the database
-seedDB();
+// seedDB();
 
 // Set the ejs file as the default view engine
 app.set('view engine', 'ejs');
-// Use
+// Use the middlewares
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 // Passport configuration
@@ -29,6 +29,11 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// Pass these local variables to every ejs file
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+})
 
 // Landing page
 app.get('/', (req, res) => {
@@ -41,27 +46,55 @@ app.get('/bunnies', (req, res) => {
         if (err) {
             console.log(`Error from Bunny.find(): ${err}`);
         }   else {
-            res.render('./bunnies/index', {bunnies: foundBunnies});
+            if (req.isAuthenticated()) {
+                const userID = req.user._id;
+                User.findById(userID, (err, foundUser) => {
+                    if (err) {
+                        console.log(`Error from User.findById(): ${err}`);
+                    }   else {
+                        res.render('./bunnies/index', {bunnies: foundBunnies, user: foundUser});
+                    }
+                })
+            }   else {
+                res.render('./bunnies/index', {bunnies: foundBunnies});
+            }
         }
     })
 })
 
 // NEW - show the form of creating the bunny's profile
-app.get('/bunnies/new', (req, res) => {
+app.get('/bunnies/new', isLoggedIn, (req, res) => {
     res.render('./bunnies/new');
 })
 
 // CREATE - create the bunny's profile according to the form
-app.post('/bunnies', (req, res) => {
+app.post('/bunnies', isLoggedIn, (req, res) => {
+    const userID   = req.user._id;
     const newBunny = req.body.bunny;
+    newBunny.owner = userID;
     Bunny.create(newBunny, (err, createdBunny) => {
         if (err) {
             console.log(err);
             res.redirect('/bunnies/new');
         }   else {
-            console.log(createdBunny);
+            User.findById(userID, (err, foundUser) => {
+                if (err) {
+                    console.log(`Error from User.findById(): ${err}`);
+                }   else {
+                    foundUser.bunny = createdBunny;
+                    foundUser.save();
+                }
+            })
             res.redirect('/bunnies');
         }
+    })
+})
+
+// SHOW - show a specific bunny
+app.get('/bunnies/:id', (req, res) => {
+    const bunnyID = req.params.id;
+    Bunny.findById(bunnyID, (err, foundBunny) => {
+        res.render('./bunnies/show', {bunny: foundBunny}); 
     })
 })
 
@@ -94,6 +127,15 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
 }))
 
+// Listen to the port 7777
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
 })
+
+// Middlewares
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}

@@ -6,7 +6,12 @@
       <h1 class="display-4">Welcome To BunnyGround!</h1>
       <p class="lead">This is a friendly place for bunnies to show off their loveliness, make new friends, and more!</p>
       <hr class="my-4">
-      <a class="btn btn-primary btn-lg" href="#" role="button">My Bunny Hutch</a>
+      <a href="/bunnies/new" class="btn btn-success btn-lg">Add Your Bunny</a>
+      <% if (currentUser) { %>
+        <a href="/bunnies/<%= user.bunny %>" class="btn btn-primary btn-lg">My Bunny Hutch</a>
+      <% } else { %>
+        <a href="/bunnies" class="btn btn-primary btn-lg">My Bunny Hutch</a>
+      <% } %>
     </div>
   </div>
   <!-- Grid system for displaying bunnies -->
