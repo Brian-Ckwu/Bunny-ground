@@ -1,7 +1,7 @@
 <%- include ('../partials/header') %>
 
   <!-- Jumbotron -->
-  <div class="container my-4">
+  <div class="container mt-15vh mb-4">
     <div class="jumbotron">
       <h1 class="display-4">Welcome To BunnyGround!</h1>
       <p class="lead">This is a friendly place for bunnies to show off their loveliness, make new friends, and more!</p>
@@ -19,7 +19,7 @@
     <div class="row">
       <% bunnies.forEach((bunny) => { %>
         <div class="col-sm-6 col-lg-3">
-          <div class="card">
+          <div class="card index-card">
             <img src="<%= bunny.image %>" class="card-img-top" alt="...">
             <div class="card-body text-center">
               <h5 class="card-title"><%= bunny.name %></h5>

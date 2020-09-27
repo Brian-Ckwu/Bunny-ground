@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-15vh" id="">
+  <div class="col-md-3">
+    <div class="card show-card">
+      <img src="<%= bunny.image %>" class="card-img-top" alt="...">
+      <div class="card-body text-center">
+        <h5 class="card-title blue"><%= bunny.name %></h5>
+        <% const sexIcon = (bunny.sex === 'Male') ? 'fa-mars' : (bunny.sex === 'Female') ? 'fa-venus' : 'fa-carrot' %>
+        <p><span><strong>Sex:</strong> <i class="fas <%= sexIcon %>"></i></span>&nbsp&nbsp&nbsp&nbsp<span><strong>Age:</strong> <%= bunny.age %></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

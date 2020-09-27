@@ -2,6 +2,14 @@
   background-color: pink;
 } */
 
+.blue {
+  color: steelblue;
+}
+
+.mt-15vh {
+  margin-top: 15vh!important;
+}
+
 .to-right {
   position: absolute;
   right: 8px;
@@ -11,14 +19,30 @@
   margin-bottom: 2rem;
 }
 
-.card img {
+.index-card > img {
   height: 35vh;
+  object-fit: cover;
+}
+
+.show-card > img {
+  margin-top: 7vh;
+  margin-bottom: 2vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
   object-fit: cover;
 }
 
 .form-container {
   width: 40%;
   margin-top: 10vh;
+}
+
+.fa-venus {
+  color: pink;
+  font-size: 1.25rem;
 }
 
 #navbar-container {
