@@ -127,6 +127,12 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
 }))
 
+// Logout route
+app.get('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/bunnies');
+})
+
 // Listen to the port 7777
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
