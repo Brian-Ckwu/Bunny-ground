@@ -45,6 +45,11 @@
   font-size: 1.25rem;
 }
 
+.fa-mars {
+  color: lightblue;
+  font-size: 1.25rem;
+}
+
 #navbar-container {
   position: relative;
 }

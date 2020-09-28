@@ -11,7 +11,7 @@ const express               = require('express'),
 const app = express();
 
 // Seed the database
-// seedDB();
+seedDB();
 
 // Set the ejs file as the default view engine
 app.set('view engine', 'ejs');
@@ -111,7 +111,7 @@ app.post('/register', (req, res) => {
             console.log(err);
             res.redirect('/register');
         }   else {
-            console.log(registeredUser);
+            // console.log(registeredUser);
             res.redirect('/bunnies');
         }
     })
