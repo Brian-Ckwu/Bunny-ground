@@ -3,14 +3,5 @@
   // Front-end
      - Layout (ok)
 
-# SeedDB file
-  // Back-end
-  - Delete the previous file (ok)
-  - Create the default bunnies to show on the page (ok)
-  // Front-end
-  - Display the default bunnies on the index page (ok)
-
-# Authentication
-  - Middleware: isLoggedIn (ok)
+# Refactor
   - Routes
-    1. /bunnies/new (ok)

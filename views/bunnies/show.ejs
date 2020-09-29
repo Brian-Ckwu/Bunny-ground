@@ -3,7 +3,7 @@
 <div class="container mt-15vh" id="">
   <div class="row">
     <div class="col-md-3">
-      <div class="card show-card">
+      <div class="card show-card mb-2">
         <img src="<%= bunny.image %>" class="card-img-top" alt="...">
         <div class="card-body text-center">
           <h5 class="card-title blue"><%= bunny.name %></h5>
@@ -11,6 +11,7 @@
           <p><span><strong>Sex:</strong> <i class="fas <%= sexIcon %>"></i></span>&nbsp&nbsp&nbsp&nbsp<span><strong>Age:</strong> <%= bunny.age %></span></p>
         </div>
       </div>
+      <a href="/bunnies/<%= bunny._id %>/posts/new" class="btn btn-success btn-block">Add New Post</a>
     </div>
     <div class="col-md-9">
       <div class="post">

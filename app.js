@@ -1,11 +1,13 @@
 const express               = require('express'),
       bodyParser            = require('body-parser'),
-      mongoose              = require('mongoose'),
+      // Packages required for authentication
       expressSession        = require('express-session'),
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
       User                  = require('./models/user'),
-      Bunny                 = require('./models/bunny'),
+      // Routes
+      bunniesRoutes         = require('./routes/bunnies'),
+      indexRoutes           = require('./routes/index'), 
       seedDB                = require('./seedDB');
 
 const app = express();
@@ -34,114 +36,11 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
-
-// Landing page
-app.get('/', (req, res) => {
-    res.render('landing');
-})
-
-// INDEX - list all the bunnies
-app.get('/bunnies', (req, res) => {
-    Bunny.find({}, (err, foundBunnies) => {
-        if (err) {
-            console.log(`Error from Bunny.find(): ${err}`);
-        }   else {
-            if (req.isAuthenticated()) {
-                const userID = req.user._id;
-                User.findById(userID, (err, foundUser) => {
-                    if (err) {
-                        console.log(`Error from User.findById(): ${err}`);
-                    }   else {
-                        res.render('./bunnies/index', {bunnies: foundBunnies, user: foundUser});
-                    }
-                })
-            }   else {
-                res.render('./bunnies/index', {bunnies: foundBunnies});
-            }
-        }
-    })
-})
-
-// NEW - show the form of creating the bunny's profile
-app.get('/bunnies/new', isLoggedIn, (req, res) => {
-    res.render('./bunnies/new');
-})
-
-// CREATE - create the bunny's profile according to the form
-app.post('/bunnies', isLoggedIn, (req, res) => {
-    const userID   = req.user._id;
-    const newBunny = req.body.bunny;
-    newBunny.owner = userID;
-    Bunny.create(newBunny, (err, createdBunny) => {
-        if (err) {
-            console.log(err);
-            res.redirect('/bunnies/new');
-        }   else {
-            User.findById(userID, (err, foundUser) => {
-                if (err) {
-                    console.log(`Error from User.findById(): ${err}`);
-                }   else {
-                    foundUser.bunny = createdBunny;
-                    foundUser.save();
-                }
-            })
-            res.redirect('/bunnies');
-        }
-    })
-})
-
-// SHOW - show a specific bunny
-app.get('/bunnies/:id', (req, res) => {
-    const bunnyID = req.params.id;
-    Bunny.findById(bunnyID, (err, foundBunny) => {
-        res.render('./bunnies/show', {bunny: foundBunny}); 
-    })
-})
-
-// Registration route
-app.get('/register', (req, res) => {
-    res.render('register');
-})
-
-app.post('/register', (req, res) => {
-    const username = req.body.user.username;
-    const password = req.body.user.password;
-    User.register({username: username}, password, (err, registeredUser) => {
-        if (err) {
-            console.log(err);
-            res.redirect('/register');
-        }   else {
-            // console.log(registeredUser);
-            res.redirect('/bunnies');
-        }
-    })
-})
-
-// Login route
-app.get('/login', (req, res) => {
-    res.render('login');
-})
-
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/bunnies',
-    failureRedirect: '/login'
-}))
-
-// Logout route
-app.get('/logout', (req, res) => {
-    req.logOut();
-    res.redirect('/bunnies');
-})
+// Use the routes
+app.use('/bunnies', bunniesRoutes);
+app.use('/', indexRoutes);
 
 // Listen to the port 7777
 app.listen(7777, () => {
     console.log('The BunnyGround server is now running...')
 })
-
-// Middlewares
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
