@@ -35,6 +35,11 @@
   object-fit: cover;
 }
 
+.post-card img {
+  height: 35vh;
+  object-fit: cover;
+}
+
 .form-container {
   width: 40%;
   margin-top: 10vh;

@@ -1,4 +1,7 @@
-- Associate the More Info button with the show page
+- Associate the More Info button with the show page (ok)
+# Show page
+  // Front-end
+     - Layout (ok)
 
 # SeedDB file
   // Back-end
