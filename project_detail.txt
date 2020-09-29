@@ -1,14 +1,4 @@
-# Bunny model
-  // Back-end
-  - Store the bunny into the database (ok)
-  - Associate the bunny with the user
-    1. Models (ok)
-    2. Create route (ok)
-    3. SeedDB
-  - Extract the bunny data from the database (ok)
-  // Front-end
-  - Button for entering the new page
-  - Show the data in the show page
+- Associate the More Info button with the show page
 
 # SeedDB file
   // Back-end
