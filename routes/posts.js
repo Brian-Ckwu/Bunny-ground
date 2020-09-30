@@ -1,6 +1,7 @@
 const express = require('express'),
       User    = require('../models/user'),
-      Post    = require('../models/posts');
+      Post    = require('../models/post'),
+      Bunny   = require('../models/bunny');
 
 const router = express.Router();
 
@@ -19,7 +20,17 @@ router.post('/bunnies/:id/posts', isBunnyOwner, (req, res) => {
             console.log(`Error from Post.create(): ${err}`);
         }   else {
             const bunnyID = req.params.id;
-            res.redirect(`/bunnies/${bunnyID}/posts/${createdPost._id}`);
+            // Associate the post with the bunny
+            Bunny.findById(bunnyID, (err, foundBunny) => {
+                if (err) {
+                    console.log(`Error from Bunny.findById(): ${err}`);
+                }   else {
+                    foundBunny.posts.push(createdPost);
+                    foundBunny.save();
+                }
+            })
+            res.redirect(`/bunnies/${bunnyID}`);
+            // res.redirect(`/bunnies/${bunnyID}/posts/${createdPost._id}`);
         }
     })
 })

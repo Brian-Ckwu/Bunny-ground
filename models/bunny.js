@@ -13,7 +13,13 @@ const bunnySchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post'
+        }
+    ]
 })
 
 const Bunny = mongoose.model('Bunny', bunnySchema);

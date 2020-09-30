@@ -57,8 +57,12 @@ router.post('/', isLoggedIn, (req, res) => {
 // SHOW - show a specific bunny
 router.get('/:id', (req, res) => {
     const bunnyID = req.params.id;
-    Bunny.findById(bunnyID, (err, foundBunny) => {
-        res.render('./bunnies/show', {bunny: foundBunny}); 
+    Bunny.findById(bunnyID).populate('posts').exec((err, foundBunny) => {
+        if (err) {
+            console.log(`Error from Bunny.findById.populate.exec(): ${err}`);
+        }   else {
+            res.render('./bunnies/show', {bunny: foundBunny})
+        }
     })
 })
 

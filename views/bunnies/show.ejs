@@ -2,50 +2,39 @@
 
 <div class="container mt-15vh" id="">
   <div class="row">
-    <div class="col-md-3">
-      <div class="card show-card mb-2">
-        <img src="<%= bunny.image %>" class="card-img-top" alt="...">
-        <div class="card-body text-center">
-          <h5 class="card-title blue"><%= bunny.name %></h5>
-          <% const sexIcon = (bunny.sex === 'Male') ? 'fa-mars' : (bunny.sex === 'Female') ? 'fa-venus' : 'fa-carrot' %>
-          <p><span><strong>Sex:</strong> <i class="fas <%= sexIcon %>"></i></span>&nbsp&nbsp&nbsp&nbsp<span><strong>Age:</strong> <%= bunny.age %></span></p>
+    <div class="col-lg-3">
+      <div class="profile-container mb-4">
+        <div class="card show-card mb-2">
+          <img src="<%= bunny.image %>" class="card-img-top" alt="...">
+          <div class="card-body text-center">
+            <h5 class="card-title blue"><%= bunny.name %></h5>
+            <% const sexIcon = (bunny.sex === 'Male') ? 'fa-mars' : (bunny.sex === 'Female') ? 'fa-venus' : 'fa-carrot' %>
+            <p><span><strong>Sex:</strong> <i class="fas <%= sexIcon %>"></i></span>&nbsp&nbsp&nbsp&nbsp<span><strong>Age:</strong> <%= bunny.age %></span></p>
+          </div>
         </div>
+        <a href="/bunnies/<%= bunny._id %>/posts/new" class="btn btn-success btn-block">Add New Post</a>
       </div>
-      <a href="/bunnies/<%= bunny._id %>/posts/new" class="btn btn-success btn-block">Add New Post</a>
     </div>
-    <div class="col-md-9">
-      <div class="post">
-        <div class="card post-card mb-4">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://images.unsplash.com/photo-1511542229800-663a99ca1817?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60" class="card-img img-fluid" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small><a href="#" class="btn btn-info btn-sm float-right">Read More</a></p>
+    <div class="col-lg-9">
+      <% bunny.posts.forEach((post) => { %>
+        <div class="post">
+          <div class="card post-card mb-4">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img class="card-img img-fluid" src="<%= post.image %>" alt="Image of the Post">
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="post">
-        <div class="card post-card mb-4">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="https://images.unsplash.com/photo-1596982061417-3a686a450552?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60" class="card-img img-fluid" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small><a href="#" class="btn btn-info btn-sm float-right">Read More</a></p>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%= post.title %></h5>
+                  <% const text = (post.text.length < 150) ? post.text : (post.text.substring(0, 150) + '...') %>
+                  <p class="card-text"><%= text %></p>
+                  <p class="card-text"><small class="text-muted"><%= post.time %><a href="/bunnies/<%= bunny._id %>/posts/<%= post._id %>" class="btn btn-info btn-sm float-right">Read More</a></small></p>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </div> <!-- div.row.no-gutters -->
+          </div> <!-- div.card.post-card.mb-4 -->
+        </div> <!-- div.post -->
+      <% }) %>
     </div>
   </div>
 </div>
