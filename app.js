@@ -7,7 +7,9 @@ const express               = require('express'),
       User                  = require('./models/user'),
       // Routes
       bunniesRoutes         = require('./routes/bunnies'),
-      indexRoutes           = require('./routes/index'), 
+      indexRoutes           = require('./routes/index'),
+      postsRoutes           = require('./routes/posts'),
+      // SeedDB
       seedDB                = require('./seedDB');
 
 const app = express();
@@ -39,6 +41,7 @@ app.use((req, res, next) => {
 // Use the routes
 app.use('/bunnies', bunniesRoutes);
 app.use('/', indexRoutes);
+app.use('/', postsRoutes);
 
 // Listen to the port 7777
 app.listen(7777, () => {

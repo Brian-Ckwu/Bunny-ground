@@ -4,4 +4,12 @@
      - Layout (ok)
 
 # Refactor
-  - Routes
+  - Routes (ok)
+
+# Posts
+  // Back-end
+     - Model (ok)
+     - Routes: new (ok), create, show
+     - Association: user, bunny (necessary?)
+  // Front-end
+     - Views: new (ok), show
