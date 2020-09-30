@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
       User     = require('./models/user'),
-      Bunny    = require('./models/bunny');
+      Bunny    = require('./models/bunny'),
+      Post     = require('./models/post');
 
 mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('Connect to the MongoDB!'))
@@ -69,6 +70,14 @@ const users = [
 ]
 
 function seedDB() {
+    // Delete the posts
+    Post.deleteMany({}, (err, deletedPosts) => {
+        if (err) {
+            console.log(`Error from Post.deleteMany(): ${err}`);
+        }   else {
+            console.log(`Deleted posts: ${deletedPosts.deletedCount}`);
+        }
+    })
     // Refactor the callback hell to Promise?
     // Delete the bunnies
     Bunny.deleteMany({}, (err, deletedBunnies) => {
@@ -103,8 +112,8 @@ function seedDB() {
                                         bunny.save();
                                     }
                                 })
-                                console.log(`Inserted users: ${index + 1}`);
                             })
+                            console.log(`Inserted users: ${users.length}`);
                         }
                     })
                 }
