@@ -112,6 +112,6 @@ function seedDB() {
         .catch((err) => console.log(err));
 }
 
-seedDB();
+// seedDB();
 
 module.exports = seedDB
