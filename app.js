@@ -10,7 +10,7 @@ const express               = require('express'),
       indexRoutes           = require('./routes/index'),
       postsRoutes           = require('./routes/posts'),
       // SeedDB
-      seedDB                = require('./seedDB');
+      seedDB                = require('./seedDB2');
 
 const app = express();
 
