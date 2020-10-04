@@ -14,3 +14,4 @@
   // Front-end
      - Views: new (ok), show
 
+# Refactor seedDB using Promises
