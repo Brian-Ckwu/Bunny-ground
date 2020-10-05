@@ -14,4 +14,6 @@
   // Front-end
      - Views: new (ok), show
 
-# Refactor seedDB using Promises
+# Refactor seedDB using Promises (ok)
+# Refactor seedDB using async/await (ok)
+# Adding posts to seedDB

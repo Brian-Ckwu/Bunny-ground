@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
       Bunny    = require('./models/bunny'),
       Post     = require('./models/post');
 
-mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
     .then(() => console.log('Connect to the MongoDB!'))
     .catch((err) => console.log(`Fail to connect to the MongoDB: ${err.message}`));
 
@@ -89,48 +89,45 @@ const posts = [
 ]
 
 // Refactored seedDB using Promises
-function seedDB() {
-    // For counting the registered users
-    let userCount = 0;
-    // Delete the bunnies
-    Bunny.deleteMany({})
-        .then((deletedBunnies) => {
-            console.log(`Deleted bunnies: ${deletedBunnies.deletedCount}`);
-            // Delete the users
-            return User.deleteMany({});
-        })
-        .then((deletedUsers) => {
-            console.log(`Deleted users: ${deletedUsers.deletedCount}`);
-            // Delete the posts
-            return Post.deleteMany({});
-        })
-        .then((deletedPosts) => {
-            console.log(`Deleted posts: ${deletedPosts.deletedCount}`);
-            // Insert the bunnies
-            return Bunny.insertMany(bunnies);
-        })
-        .then((insertedBunnies) => {
-            console.log(`Inserted bunnies: ${insertedBunnies.length}`);
-            // Register the users
-            users.forEach((user, index) => {
-                const bunny = insertedBunnies[index];
-                User.register({username: user.username, bunny: bunny}, user.password) // Associate the user with the bunny
-                    .then((registeredUser) => {
-                        userCount++
-                        // Associate the bunny with the user
-                        bunny.owner = registeredUser;
-                        bunny.save();
-                    })
-                    .catch((err) => console.log(err));
-            })
-        })
-        .then(() => {
-            // How to solve the async problem of users counting?
-            console.log(`Inserted users: ${users.length}`);
-        })
-        .catch((err) => console.log(err));
+async function seedDB() {
+    // Delete the bunnies, users, and posts
+    const deleteArray = await Promise.all([
+        Bunny.deleteMany({}),
+        User.deleteMany({}),
+        Post.deleteMany({})
+    ]);
+
+    console.log(`Deleted bunnies: ${deleteArray[0].deletedCount}`);
+    console.log(`Deleted users: ${deleteArray[1].deletedCount}`);
+    console.log(`Deleted posts: ${deleteArray[2].deletedCount}`);
+
+    // Insert the bunnies, users, and posts
+    // Insert the bunnies
+    const insertedBunnies = await Bunny.insertMany(bunnies);
+    console.log(`Inserted bunnies: ${insertedBunnies.length}`);
+    // Register the users
+    const registerArray = [];
+    users.forEach((user, index) => {
+        // Associate the user with the bunny
+        registerArray.push(User.register({username: user.username, bunny: insertedBunnies[index]}, user.password))
+    })
+    const insertedUsers = await Promise.all(registerArray);
+    console.log(`Inserted users: ${insertedUsers.length}`);
+    // Associate the bunny with the user
+    const bunnyArray = [];
+    insertedBunnies.forEach((bunny, index) => {
+        const owner = insertedUsers[index];
+        // bunnyArray.push(bunny.save());
+        // Try using findOneAndUpdate() instead to solve the problem
+        bunnyArray.push(Bunny.findOneAndUpdate({_id: bunny._id}, {owner: owner}, {new: true}));
+    })
+    // Array: inspection iterrupted prematurely. Maximum call stack size exceeded???
+    // const ownedBunnies = await Promise.all(bunnyArray);
+    // console.log(ownedBunnies);
+    const updatedBunnies = await Promise.all(bunnyArray);
+    console.log('Seeding completed');
 }
 
-// seedDB();
+seedDB();
 
 module.exports = seedDB
