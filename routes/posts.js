@@ -37,7 +37,16 @@ router.post('/bunnies/:id/posts', isBunnyOwner, (req, res) => {
 
 // SHOW - show a specific post
 router.get('/bunnies/:id/posts/:pid', (req, res) => {
-    // 
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    Post.findById(postID, (err, foundPost) => {
+        if (err) {
+            console.log(`Error from Post.findById(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}`);
+        }   else {
+            res.render('./posts/show', {post: foundPost, bunnyID: bunnyID});
+        }
+    })
 })
 
 module.exports = router;

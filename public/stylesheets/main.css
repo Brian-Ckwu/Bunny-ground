@@ -44,6 +44,11 @@
   object-fit: cover;
 }
 
+.post-show-card img {
+  height: 20rem;
+  object-fit: cover;
+}
+
 .form-container {
   width: 40%;
   margin-top: 10vh;

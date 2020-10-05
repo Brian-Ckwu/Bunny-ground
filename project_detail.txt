@@ -9,12 +9,12 @@
 # Posts
   // Back-end
      - Model (ok)
-     - Routes: new (ok), create, show
-     - Association: user (ok), bunny
+     - Routes: new (ok), create (ok), show
+     - Association: user (ok), bunny (ok)
   // Front-end
      - Views: new (ok), show
 
 # Refactor seedDB using Promises (ok)
 # Refactor seedDB using async/await (ok)
-# Adding posts to seedDB
+# Adding posts to seedDB (ok)
 
