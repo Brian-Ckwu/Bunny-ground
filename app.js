@@ -9,6 +9,8 @@ const express               = require('express'),
       bunniesRoutes         = require('./routes/bunnies'),
       indexRoutes           = require('./routes/index'),
       postsRoutes           = require('./routes/posts'),
+      // MethodOverride
+      methodOverride        = require('method-override');
       // SeedDB
       seedDB                = require('./seedDB3');
 
@@ -38,10 +40,12 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
+// Use method-override
+app.use(methodOverride('_method'));
 // Use the routes
 app.use('/bunnies', bunniesRoutes);
 app.use('/', indexRoutes);
-app.use('/', postsRoutes);
+app.use('/bunnies/:id/posts', postsRoutes);
 
 // Listen to the port 7777
 app.listen(7777, () => {

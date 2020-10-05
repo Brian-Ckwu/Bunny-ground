@@ -3,16 +3,16 @@ const express = require('express'),
       Post    = require('../models/post'),
       Bunny   = require('../models/bunny');
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 
 // NEW - show the form for creating a new post
-router.get('/bunnies/:id/posts/new', isBunnyOwner, (req, res) => {
+router.get('/new', isBunnyOwner, (req, res) => {
     const bunnyID = req.params.id;
     res.render('./posts/new', {bunnyID: bunnyID});
 })
 
 // CREATE - create a new post according to the sent form
-router.post('/bunnies/:id/posts', isBunnyOwner, (req, res) => {
+router.post('/posts', isBunnyOwner, (req, res) => {
     let newPost = req.body.post;
     newPost.author = req.user._id;
     Post.create(newPost, (err, createdPost) => {
@@ -36,7 +36,7 @@ router.post('/bunnies/:id/posts', isBunnyOwner, (req, res) => {
 })
 
 // SHOW - show a specific post
-router.get('/bunnies/:id/posts/:pid', (req, res) => {
+router.get('/:pid', (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     Post.findById(postID, (err, foundPost) => {
@@ -48,6 +48,38 @@ router.get('/bunnies/:id/posts/:pid', (req, res) => {
         }
     })
 })
+
+// EDIT - show the edit form for the post
+router.get('/:pid/edit', isBunnyOwner, (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    Post.findById(postID, (err, foundPost) => {
+        if (err) {
+            console.log(`Error from Post.findById(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            res.render('./posts/edit', {post: foundPost, bunnyID: bunnyID});
+        }
+    })
+})
+
+// UPDATE - update the post according to the edit form
+router.put('/:pid', isBunnyOwner, (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    const post = req.body.post;
+    // How about edit time?
+    Post.findByIdAndUpdate(postID, post, (err, updatedPost) => {
+        if (err) {
+            console.log(`Error from Post.findByIdAndUpdate(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }
+    })
+})
+
+// Destroy - delete the post
 
 module.exports = router;
 
