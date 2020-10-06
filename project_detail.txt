@@ -20,5 +20,11 @@
 
 # Post Routes
   1. Edit
-     (1) Router
-     (2) Page
+     (1) Router (ok)
+     (2) Page (ok)
+  2. Destroy (ok)
+
+# Comments
+  1. Model (ok)
+  2. Routes
+  3. Views
