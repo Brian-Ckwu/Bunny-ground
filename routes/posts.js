@@ -80,6 +80,23 @@ router.put('/:pid', isBunnyOwner, (req, res) => {
 })
 
 // Destroy - delete the post
+router.delete('/:pid', isBunnyOwner, (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    Post.findByIdAndDelete(postID, (err, deletedPost) => {
+        if (err) {
+            console.log(`Error from Post.findByIdAndDelete(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            // Also need to remove post ObjectID from the associated bunny
+            Bunny.updateOne({_id: bunnyID}, {$pull: {posts: postID}})
+                .then(() => {
+                    res.redirect(`/bunnies/${bunnyID}`);
+                })
+                .catch((err) => console.log(`Error from Bunny.updateOne(): ${err}`));
+        }
+    })
+})
 
 module.exports = router;
 

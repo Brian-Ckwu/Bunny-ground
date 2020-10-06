@@ -182,7 +182,6 @@ async function seedDB() {
     // Insert the posts
     const insertedPosts = await Post.insertMany(posts);
     console.log(`Inserted posts: ${insertedPosts.length}`);
-    console.log(insertedPosts);
 
     // Associate the bunnies with the users and the posts
     const bunnyArray = [];
