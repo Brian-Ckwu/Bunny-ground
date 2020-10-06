@@ -4,6 +4,7 @@
   <div class="row">
     <div class="col-md-2 col-lg-3"></div>
     <div class="col-md-8 col-lg-6">
+      <!-- Post -->
       <div class="card post-show-card mb-2">
         <img src="<%= post.image %>" class="card-img-top" alt="...">
         <div class="card-body">
@@ -19,7 +20,26 @@
           <% } %>
         </div>
       </div>
-      <a href="/bunnies/<%= bunnyID %>" class="btn btn-block btn-info">Go Back</a>
+      <!-- Comments -->
+      <div class="card mb-2">
+        <div class="card-header comment-card-header">
+          <span>Comment</span><a href="#" class="btn btn-sm btn-success float-right">Leave Comment</a>
+        </div>
+        <div class="card-body">
+          <div class="comment">
+            <p class="card-text">Consectetur labore deserunt nisi ea ea. Ullamco excepteur ipsum nostrud velit nulla ea adipisicing amet nostrud enim id eu.</p>
+            <span class="card-text"><small class="text-muted">This line will be the datetime</small></span>
+            <hr>
+          </div>
+          <div class="comment">
+            <p class="card-text">Consectetur labore deserunt nisi ea ea. Ullamco excepteur ipsum nostrud velit nulla ea adipisicing amet nostrud enim id eu.</p>
+            <span class="card-text"><small class="text-muted">This line will be the datetime</small></span>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <!-- Go Back -->
+      <a href="/bunnies/<%= bunnyID %>" class="btn btn-block btn-info mb-2">Go Back</a>
     </div>
     <div class="col-md-2 col-lg-3"></div>
   </div>

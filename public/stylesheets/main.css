@@ -76,6 +76,10 @@
   display: inline;
 }
 
+.comment-card-header {
+  font-weight: bold;
+}
+
 #navbar-container {
   position: relative;
 }
