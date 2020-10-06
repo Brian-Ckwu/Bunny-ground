@@ -9,7 +9,14 @@
         <div class="card-body">
           <h4 class="card-title"><%= post.title %></h4>
           <p class="card-text"><%= post.text %></p>
-          <p class="card-text"><small class="text-muted"><%= post.time %></small></p>
+          <span class="card-text"><small class="text-muted"><%= post.time %></small></span>
+          <!-- Edit/Delete buttons -->
+          <% if (currentUser && post.author.equals(currentUser._id)) { %>
+            <form action="/bunnies/<%= bunnyID %>/posts/<%= post._id%>?_method=DELETE" method="POST" class="delete-form mx-2">
+              <button class="btn btn-sm btn-danger float-right">Delete</button>
+            </form>
+            <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/edit" class="btn btn-sm btn-warning float-right mx-2">Edit</a>
+          <% } %>
         </div>
       </div>
       <a href="/bunnies/<%= bunnyID %>" class="btn btn-block btn-info">Go Back</a>

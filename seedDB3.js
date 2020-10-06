@@ -175,9 +175,14 @@ async function seedDB() {
     const insertedUsers = await Promise.all(registerArray);
     console.log(`Inserted users: ${insertedUsers.length}`);
 
+    // Associate the post with the author (do this first so it's more efficient (Not having to call findOneAndUpdate))
+    posts.forEach((post, index) => {
+        post.author = insertedUsers[Math.floor(index / 3)]._id;
+    })
     // Insert the posts
     const insertedPosts = await Post.insertMany(posts);
     console.log(`Inserted posts: ${insertedPosts.length}`);
+    console.log(insertedPosts);
 
     // Associate the bunnies with the users and the posts
     const bunnyArray = [];
