@@ -12,7 +12,9 @@
             <p><span><strong>Sex:</strong> <i class="fas <%= sexIcon %>"></i></span>&nbsp&nbsp&nbsp&nbsp<span><strong>Age:</strong> <%= bunny.age %></span></p>
           </div>
         </div>
-        <a href="/bunnies/<%= bunny._id %>/posts/new" class="btn btn-success btn-block">Add New Post</a>
+        <% if (currentUser && bunny.owner.equals(currentUser._id)) { %>
+          <a href="/bunnies/<%= bunny._id %>/posts/new" class="btn btn-success btn-block">Add New Post</a>
+        <% } %>
       </div>
     </div>
     <div class="col-lg-9">
