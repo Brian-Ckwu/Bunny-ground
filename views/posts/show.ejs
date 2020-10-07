@@ -23,19 +23,16 @@
       <!-- Comments -->
       <div class="card mb-2">
         <div class="card-header comment-card-header">
-          <span>Comment</span><a href="#" class="btn btn-sm btn-success float-right">Leave Comment</a>
+          <span>Comment</span><a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/new" class="btn btn-sm btn-success float-right">Leave Comment</a>
         </div>
         <div class="card-body">
-          <div class="comment">
-            <p class="card-text">Consectetur labore deserunt nisi ea ea. Ullamco excepteur ipsum nostrud velit nulla ea adipisicing amet nostrud enim id eu.</p>
-            <span class="card-text"><small class="text-muted">This line will be the datetime</small></span>
-            <hr>
-          </div>
-          <div class="comment">
-            <p class="card-text">Consectetur labore deserunt nisi ea ea. Ullamco excepteur ipsum nostrud velit nulla ea adipisicing amet nostrud enim id eu.</p>
-            <span class="card-text"><small class="text-muted">This line will be the datetime</small></span>
-            <hr>
-          </div>
+          <% post.comments.forEach((comment) => { %>
+            <div class="comment">
+              <p class="card-text"><strong><%= comment.author.username %></strong> - <%= comment.text %></p>
+              <span class="card-text"><small class="text-muted"><%= comment.time %></small></span>
+              <hr>
+            </div>
+          <% }) %>
         </div>
       </div>
       <!-- Go Back -->

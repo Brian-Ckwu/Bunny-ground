@@ -9,6 +9,7 @@ const express               = require('express'),
       bunniesRoutes         = require('./routes/bunnies'),
       indexRoutes           = require('./routes/index'),
       postsRoutes           = require('./routes/posts'),
+      commentsRoutes         = require('./routes/comments'),
       // MethodOverride
       methodOverride        = require('method-override');
       // SeedDB
@@ -46,6 +47,7 @@ app.use(methodOverride('_method'));
 app.use('/bunnies', bunniesRoutes);
 app.use('/', indexRoutes);
 app.use('/bunnies/:id/posts', postsRoutes);
+app.use('/bunnies/:id/posts/:pid/comments', commentsRoutes);
 
 // Listen to the port 7777
 app.listen(7777, () => {

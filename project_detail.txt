@@ -27,4 +27,10 @@
 # Comments
   1. Model (ok)
   2. Routes
-  3. Views
+     (1) New (ok)
+     (2) Create (ok)
+     (3) Edit
+     (4) Update
+     (5) Destroy
+  3. Views (ok)
+     (1) Comment.author population (ok)

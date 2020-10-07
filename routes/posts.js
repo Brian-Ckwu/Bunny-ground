@@ -39,7 +39,7 @@ router.post('/posts', isBunnyOwner, (req, res) => {
 router.get('/:pid', (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
-    Post.findById(postID, (err, foundPost) => {
+    Post.findById(postID).populate({path: 'comments', populate: 'author'}).exec((err, foundPost) => { // How to populate the comment?
         if (err) {
             console.log(`Error from Post.findById(): ${err}`);
             res.redirect(`/bunnies/${bunnyID}`);

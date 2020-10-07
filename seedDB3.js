@@ -1,7 +1,8 @@
 const mongoose = require('mongoose'),
       User     = require('./models/user'),
       Bunny    = require('./models/bunny'),
-      Post     = require('./models/post');
+      Post     = require('./models/post'),
+      Comment  = require('./models/comment');
 
 mongoose.connect('mongodb://localhost/bunnyground', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
     .then(() => console.log('Connect to the MongoDB!'))
@@ -150,16 +151,18 @@ const posts = [
 
 // Refactored seedDB using Promises
 async function seedDB() {
-    // Delete the bunnies, users, and posts
+    // Delete the bunnies, users, posts, and comments
     const deleteArray = await Promise.all([
         Bunny.deleteMany({}),
         User.deleteMany({}),
-        Post.deleteMany({})
+        Post.deleteMany({}),
+        Comment.deleteMany({})
     ]);
 
     console.log(`Deleted bunnies: ${deleteArray[0].deletedCount}`);
     console.log(`Deleted users: ${deleteArray[1].deletedCount}`);
     console.log(`Deleted posts: ${deleteArray[2].deletedCount}`);
+    console.log(`Deleted comments: ${deleteArray[3].deletedCount}`);
 
     // Insert the bunnies, users, and posts
     // Insert the bunnies
