@@ -23,13 +23,23 @@
       <!-- Comments -->
       <div class="card mb-2">
         <div class="card-header comment-card-header">
-          <span>Comment</span><a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/new" class="btn btn-sm btn-success float-right">Leave Comment</a>
+          <span>Comment</span>
+          <% if(currentUser) { %>
+            <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/new" class="btn btn-sm btn-success float-right">Leave Comment</a>
+          <% } %>
         </div>
         <div class="card-body">
           <% post.comments.forEach((comment) => { %>
             <div class="comment">
               <p class="card-text"><strong><%= comment.author.username %></strong> - <%= comment.text %></p>
               <span class="card-text"><small class="text-muted"><%= comment.time %></small></span>
+              <!-- Edit/Delete buttons -->
+              <% if(currentUser && comment.author._id.equals(currentUser._id)) { %>
+                <form action="/bunnies/<%= bunnyID %>/posts/<%= post._id%>/comments/<%= comment._id %>?_method=DELETE" method="POST" class="delete-form mx-2">
+                  <button class="btn btn-sm btn-danger float-right">Delete</button>
+                </form>
+                <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-warning float-right mx-2">Edit</a>
+              <% } %>
               <hr>
             </div>
           <% }) %>

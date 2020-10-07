@@ -37,6 +37,21 @@ router.post('/', isLoggedIn, (req, res) => {
     })
 })
 
+// EDIT - edit a specific comment
+router.get('/:cid/edit', (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    const commentID = req.params.cid;
+    Comment.findById(commentID, (err, foundComment) => {
+        if (err) {
+            console.log(`Error from Comment.findById(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            res.render('./comments/edit', {bunnyID: bunnyID, postID: postID, comment: foundComment});
+        }
+    })
+})
+
 module.exports = router;
 
 // Middlewares (refactoring: move the middlewares to a separate file)

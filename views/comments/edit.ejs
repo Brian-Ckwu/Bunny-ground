@@ -1,0 +1,12 @@
+<%- include ('../partials/header') %>
+  <div class="container form-container mt-15vh mb-8vh">
+    <form action="/bunnies/<%= bunnyID %>/posts/<%= postID %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+      <h1 class="text-center mb-2">Edit The Comment</h1>
+      <div class="form-group">
+        <label for="text"></label>
+        <textarea class="form-control" id="text" rows="5" name="comment[text]"><%= comment.text %></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+    </form>
+  </div>
+<%- include ('../partials/footer') %>
