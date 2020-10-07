@@ -1,7 +1,9 @@
 const express               = require('express'),
       bodyParser            = require('body-parser'),
-      // Packages required for authentication
+      // Express session
       expressSession        = require('express-session'),
+      expressBack           = require('express-back'),
+      // Packages required for authentication
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
       User                  = require('./models/user'),
@@ -25,12 +27,14 @@ app.set('view engine', 'ejs');
 // Use the middlewares
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
-// Passport configuration
+// Session configuration
 app.use(expressSession({
     secret: 'Brian Wu',
     resave: false,
     saveUninitialized: false
 }))
+app.use(expressBack());
+// Passport configuration
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));

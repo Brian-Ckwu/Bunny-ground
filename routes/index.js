@@ -33,15 +33,27 @@ router.get('/login', (req, res) => {
     res.render('login');
 })
 
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/bunnies',
-    failureRedirect: '/login'
-}))
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect('/login');
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect(req.prevPrevPath);
+        });
+    })(req, res, next);
+});
 
 // Logout route
 router.get('/logout', (req, res) => {
     req.logOut();
-    res.redirect('/bunnies');
+    res.redirect(req.prevPath);
 })
 
 module.exports = router;
