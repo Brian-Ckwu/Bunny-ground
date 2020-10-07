@@ -37,8 +37,8 @@ router.post('/', isLoggedIn, (req, res) => {
     })
 })
 
-// EDIT - edit a specific comment
-router.get('/:cid/edit', (req, res) => {
+// EDIT - show the form for editing a specific comment
+router.get('/:cid/edit', isCommentAuthor, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const commentID = req.params.cid;
@@ -52,6 +52,45 @@ router.get('/:cid/edit', (req, res) => {
     })
 })
 
+// UPDATE - update a specific comment according to the edit form
+router.put('/:cid', isCommentAuthor, (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    const commentID = req.params.cid;
+    const comment = req.body.comment;
+    Comment.findByIdAndUpdate(commentID, comment, (err, updatedComment) => {
+        if (err) {
+            console.log(`Error from Comment.findByIdAndUpdate(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }
+    })
+})
+
+// DESTROY - delete a specific post
+router.delete('/:cid', isCommentAuthor, (req, res) => {
+    const bunnyID = req.params.id;
+    const postID = req.params.pid;
+    const commentID = req.params.cid;
+    Comment.findByIdAndDelete(commentID, (err, deletedComment) => {
+        if (err) {
+            console.log(`Error from Comment.findByIdAndDelete(): ${err}`);
+            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+        }   else {
+            // Also need to remove commentID from the post
+            Post.updateOne({_id: postID}, {$pull: {comments: commentID}})
+                .then(() => {
+                    res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+                })
+                .catch((err) => {
+                    console.log(`Error from Post.updateOne(): ${err}`);
+                    res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+                })
+        }
+    })
+})
+
 module.exports = router;
 
 // Middlewares (refactoring: move the middlewares to a separate file)
@@ -60,4 +99,25 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect('/login');
+}
+
+function isCommentAuthor(req, res, next) {
+    // Check if isLoggedIn
+    if (req.isAuthenticated()) {
+        const userID = req.user._id;
+        const postID = req.params.pid;
+        const commentID = req.params.cid;
+        Comment.findById(commentID, (err, foundComment) => {
+            if (err) {
+                console.log(`Error from User.findById(): ${err}`);
+            }   else {
+                if (foundComment.author.equals(userID)) {
+                    return next();
+                }
+                res.redirect(`/bunnies/${bunnyID}/posts/${postID}`); // Use flash message instead when modified
+            }
+        })
+    }   else {
+        res.redirect('/login');
+    }
 }

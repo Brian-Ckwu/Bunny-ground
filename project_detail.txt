@@ -31,6 +31,8 @@
      (2) Create (ok)
      (3) Edit
      (4) Update
+
+     // Middleware: isCommentAuthor
      (5) Destroy
   3. Views (ok)
      (1) Comment.author population (ok)
