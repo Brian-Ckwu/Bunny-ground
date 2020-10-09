@@ -1,18 +1,19 @@
-const express = require('express'),
-      Post    = require('../models/post'),
-      Comment = require('../models/comment');
+const express     = require('express'),
+      Post        = require('../models/post'),
+      Comment     = require('../models/comment'),
+      middlewares = require('../middlewares');
 
 const router = express.Router({mergeParams: true});
 
 // NEW - show the form for creating a new comment
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middlewares.isLoggedIn, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     res.render('./comments/new', {bunnyID: bunnyID, postID: postID});
 })
 
 // CREATE - create a new comment according to the submitted form
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middlewares.isLoggedIn, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const comment = req.body.comment;
@@ -38,7 +39,7 @@ router.post('/', isLoggedIn, (req, res) => {
 })
 
 // EDIT - show the form for editing a specific comment
-router.get('/:cid/edit', isCommentAuthor, (req, res) => {
+router.get('/:cid/edit', middlewares.isCommentAuthor, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const commentID = req.params.cid;
@@ -53,7 +54,7 @@ router.get('/:cid/edit', isCommentAuthor, (req, res) => {
 })
 
 // UPDATE - update a specific comment according to the edit form
-router.put('/:cid', isCommentAuthor, (req, res) => {
+router.put('/:cid', middlewares.isCommentAuthor, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const commentID = req.params.cid;
@@ -69,7 +70,7 @@ router.put('/:cid', isCommentAuthor, (req, res) => {
 })
 
 // DESTROY - delete a specific post
-router.delete('/:cid', isCommentAuthor, (req, res) => {
+router.delete('/:cid', middlewares.isCommentAuthor, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const commentID = req.params.cid;
@@ -92,32 +93,3 @@ router.delete('/:cid', isCommentAuthor, (req, res) => {
 })
 
 module.exports = router;
-
-// Middlewares (refactoring: move the middlewares to a separate file)
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-
-function isCommentAuthor(req, res, next) {
-    // Check if isLoggedIn
-    if (req.isAuthenticated()) {
-        const userID = req.user._id;
-        const postID = req.params.pid;
-        const commentID = req.params.cid;
-        Comment.findById(commentID, (err, foundComment) => {
-            if (err) {
-                console.log(`Error from User.findById(): ${err}`);
-            }   else {
-                if (foundComment.author.equals(userID)) {
-                    return next();
-                }
-                res.redirect(`/bunnies/${bunnyID}/posts/${postID}`); // Use flash message instead when modified
-            }
-        })
-    }   else {
-        res.redirect('/login');
-    }
-}

@@ -1,6 +1,7 @@
-const express = require('express'),
-      User    = require('../models/user'),
-      Bunny   = require('../models/bunny');
+const express     = require('express'),
+      User        = require('../models/user'),
+      Bunny       = require('../models/bunny'),
+      middlewares = require('../middlewares'); // Will import index.js in middlewares folder automatically
 
 const router = express.Router();
 
@@ -27,12 +28,12 @@ router.get('/', (req, res) => {
 })
 
 // NEW - show the form of creating the bunny's profile
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middlewares.isLoggedIn, (req, res) => {
     res.render('./bunnies/new');
 })
 
 // CREATE - create the bunny's profile according to the form
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middlewares.isLoggedIn, (req, res) => {
     const userID   = req.user._id;
     const newBunny = req.body.bunny;
     newBunny.owner = userID;
@@ -67,11 +68,3 @@ router.get('/:id', (req, res) => {
 })
 
 module.exports = router;
-
-// Middlewares
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}

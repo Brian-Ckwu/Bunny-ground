@@ -1,18 +1,19 @@
-const express = require('express'),
-      User    = require('../models/user'),
-      Post    = require('../models/post'),
-      Bunny   = require('../models/bunny');
+const express     = require('express'),
+      User        = require('../models/user'),
+      Post        = require('../models/post'),
+      Bunny       = require('../models/bunny'),
+      middlewares = require('../middlewares');
 
 const router = express.Router({mergeParams: true});
 
 // NEW - show the form for creating a new post
-router.get('/new', isBunnyOwner, (req, res) => {
+router.get('/new', middlewares.isBunnyOwner, (req, res) => {
     const bunnyID = req.params.id;
     res.render('./posts/new', {bunnyID: bunnyID});
 })
 
 // CREATE - create a new post according to the sent form
-router.post('/posts', isBunnyOwner, (req, res) => {
+router.post('/', middlewares.isBunnyOwner, (req, res) => {
     let newPost = req.body.post;
     newPost.author = req.user._id;
     Post.create(newPost, (err, createdPost) => {
@@ -50,7 +51,7 @@ router.get('/:pid', (req, res) => {
 })
 
 // EDIT - show the edit form for the post
-router.get('/:pid/edit', isBunnyOwner, (req, res) => {
+router.get('/:pid/edit', middlewares.isBunnyOwner, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     Post.findById(postID, (err, foundPost) => {
@@ -64,7 +65,7 @@ router.get('/:pid/edit', isBunnyOwner, (req, res) => {
 })
 
 // UPDATE - update the post according to the edit form
-router.put('/:pid', isBunnyOwner, (req, res) => {
+router.put('/:pid', middlewares.isBunnyOwner, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     const post = req.body.post;
@@ -80,7 +81,7 @@ router.put('/:pid', isBunnyOwner, (req, res) => {
 })
 
 // Destroy - delete the post
-router.delete('/:pid', isBunnyOwner, (req, res) => {
+router.delete('/:pid', middlewares.isBunnyOwner, (req, res) => {
     const bunnyID = req.params.id;
     const postID = req.params.pid;
     Post.findByIdAndDelete(postID, (err, deletedPost) => {
@@ -99,24 +100,3 @@ router.delete('/:pid', isBunnyOwner, (req, res) => {
 })
 
 module.exports = router;
-
-// Middleware
-function isBunnyOwner(req, res, next) {
-    // Check if isLoggedIn
-    if (req.isAuthenticated()) {
-        const userID = req.user._id;
-        const bunnyID = req.params.id;
-        User.findById(userID, (err, foundUser) => {
-            if (err) {
-                console.log(`Error from User.findById(): ${err}`);
-            }   else {
-                if (foundUser.bunny.equals(bunnyID)) {
-                    return next();
-                }
-                res.redirect(`/bunnies/${bunnyID}`); // Use flash message instead when modified
-            }
-        })
-    }   else {
-        res.redirect('/login');
-    }
-}
