@@ -27,13 +27,17 @@ router.post('/', middlewares.isLoggedIn, (req, res) => {
             Post.findById(postID, (err, foundPost) => {
                 if (err) {
                     console.log(`Error from Post.findById(): ${err}`);
+                    res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
                 }   else {
                     foundPost.comments.push(createdComment);
                     foundPost.save()
+                        .then(() => {
+                            req.flash('success', 'You have left a comment successfully!');
+                            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
+                        })
                         .catch((err) => console.log(err));
                 }
             })
-            res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
         }
     })
 })
@@ -64,6 +68,7 @@ router.put('/:cid', middlewares.isCommentAuthor, (req, res) => {
             console.log(`Error from Comment.findByIdAndUpdate(): ${err}`);
             res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
         }   else {
+            req.flash('success', 'You have editted a comment successfully!');
             res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
         }
     })
@@ -82,6 +87,7 @@ router.delete('/:cid', middlewares.isCommentAuthor, (req, res) => {
             // Also need to remove commentID from the post
             Post.updateOne({_id: postID}, {$pull: {comments: commentID}})
                 .then(() => {
+                    req.flash('success', 'You have deleted a comment successfully!');
                     res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
                 })
                 .catch((err) => {

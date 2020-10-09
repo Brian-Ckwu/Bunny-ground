@@ -19,10 +19,10 @@ router.post('/register', (req, res) => {
     const password = req.body.user.password;
     User.register({username: username}, password, (err, registeredUser) => {
         if (err) {
-            console.log(err);
+            req.flash('error', err.message);
             res.redirect('/register');
         }   else {
-            // console.log(registeredUser);
+            req.flash('success', 'You have signed up successfully!');
             res.redirect('/bunnies');
         }
     })
@@ -39,12 +39,14 @@ router.post('/login', function(req, res, next) {
             return next(err);
         }
         if (!user) {
+            req.flash('error', 'Please enter the correct username and password')
             return res.redirect('/login');
         }
         req.logIn(user, function(err) {
             if (err) {
                 return next(err);
             }
+            req.flash('success', 'You have logged in successfully!')
             return res.redirect(req.prevPrevPath);
         });
     })(req, res, next);
@@ -53,6 +55,7 @@ router.post('/login', function(req, res, next) {
 // Logout route
 router.get('/logout', (req, res) => {
     req.logOut();
+    req.flash('success', 'You have logged out successfully!');
     res.redirect(req.prevPath);
 })
 

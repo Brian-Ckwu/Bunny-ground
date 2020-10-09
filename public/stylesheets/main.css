@@ -6,8 +6,8 @@
   color: steelblue;
 }
 
-.mt-15vh {
-  margin-top: 15vh!important;
+.mt-13vh {
+  margin-top: 13vh!important;
 }
 
 .mb-8vh {
@@ -51,7 +51,7 @@
 
 .form-container {
   width: 40%;
-  margin-top: 10vh;
+  /* margin-top: 10vh; */
 }
 
 .fa-venus {

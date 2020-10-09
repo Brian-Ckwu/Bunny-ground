@@ -6,6 +6,7 @@ const middlewares= {
         if (req.isAuthenticated()) {
             return next();
         }
+        req.flash('error', 'You have to login first!');
         res.redirect('/login');
     },
     
@@ -21,10 +22,12 @@ const middlewares= {
                     if (foundUser.bunny.equals(bunnyID)) {
                         return next();
                     }
-                    res.redirect(`/bunnies/${bunnyID}`); // Use flash message instead when modified
+                    req.flash('error', 'You are not the owner of the bunny!');
+                    res.redirect(`/bunnies/${bunnyID}`);
                 }
             })
         }   else {
+            req.flash('error', 'You have to login first!');
             res.redirect('/login');
         }
     },
@@ -42,10 +45,12 @@ const middlewares= {
                     if (foundComment.author.equals(userID)) {
                         return next();
                     }
+                    req.flash('error', 'You are not the author of the comment!');
                     res.redirect(`/bunnies/${bunnyID}/posts/${postID}`); // Use flash message instead when modified
                 }
             })
         }   else {
+            req.flash('error', 'You have to login first!');
             res.redirect('/login');
         }
     }

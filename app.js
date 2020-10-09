@@ -3,6 +3,7 @@ const express               = require('express'),
       // Express session
       expressSession        = require('express-session'),
       expressBack           = require('express-back'),
+      flash                 = require('connect-flash-plus'),
       // Packages required for authentication
       passport              = require('passport'),
       localStrategy         = require('passport-local'),
@@ -34,6 +35,7 @@ app.use(expressSession({
     saveUninitialized: false
 }))
 app.use(expressBack());
+app.use(flash());
 // Passport configuration
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,6 +45,8 @@ passport.deserializeUser(User.deserializeUser());
 // Pass these local variables to every ejs file
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.success     = req.flash('success');
+    res.locals.error       = req.flash('error');
     next();
 })
 // Use method-override

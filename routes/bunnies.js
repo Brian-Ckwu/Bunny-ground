@@ -45,12 +45,16 @@ router.post('/', middlewares.isLoggedIn, (req, res) => {
             User.findById(userID, (err, foundUser) => {
                 if (err) {
                     console.log(`Error from User.findById(): ${err}`);
+                    res.redirect('/bunnies');
                 }   else {
                     foundUser.bunny = createdBunny;
-                    foundUser.save();
+                    foundUser.save()
+                        .then(() => {
+                            req.flash('success', 'You have added your bunny successfully!');
+                            res.redirect('/bunnies');
+                        })
                 }
             })
-            res.redirect('/bunnies');
         }
     })
 })

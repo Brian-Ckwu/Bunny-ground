@@ -30,6 +30,7 @@ router.post('/', middlewares.isBunnyOwner, (req, res) => {
                     foundBunny.save();
                 }
             })
+            req.flash('success', 'You have added a post successfully!');
             res.redirect(`/bunnies/${bunnyID}`);
             // res.redirect(`/bunnies/${bunnyID}/posts/${createdPost._id}`);
         }
@@ -75,6 +76,7 @@ router.put('/:pid', middlewares.isBunnyOwner, (req, res) => {
             console.log(`Error from Post.findByIdAndUpdate(): ${err}`);
             res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
         }   else {
+            req.flash('success', 'You have editted the post successfully!');
             res.redirect(`/bunnies/${bunnyID}/posts/${postID}`);
         }
     })
@@ -92,6 +94,7 @@ router.delete('/:pid', middlewares.isBunnyOwner, (req, res) => {
             // Also need to remove post ObjectID from the associated bunny
             Bunny.updateOne({_id: bunnyID}, {$pull: {posts: postID}})
                 .then(() => {
+                    req.flash('success', 'You have deleted the post successfully!');
                     res.redirect(`/bunnies/${bunnyID}`);
                 })
                 .catch((err) => console.log(`Error from Bunny.updateOne(): ${err}`));
