@@ -44,6 +44,12 @@
             </div>
           <% }) %>
         </div>
+        <div class="mx-2">
+          <form action="comment-form" class="">
+            <textarea name="" id="" rows="1" class="form-control comment-textarea" placeholder="Leave comment..."></textarea>
+            <button class="btn btn-primary btn-sm btn-comment-submit float-right">Submit</button>
+          </form>
+        </div>
       </div>
       <!-- Go Back -->
       <a href="/bunnies/<%= bunnyID %>" class="btn btn-block btn-info mb-2">Go Back</a>

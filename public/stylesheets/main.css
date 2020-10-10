@@ -80,6 +80,20 @@
   font-weight: bold;
 }
 
+.comment-form {
+  vertical-align: middle;
+}
+
+.comment-textarea {
+  display: inline;
+  width: 84%;
+  font-size: 0.75rem;
+}
+
+.btn-comment-submit {
+  width: 15.5%;
+}
+
 #navbar-container {
   position: relative;
 }
