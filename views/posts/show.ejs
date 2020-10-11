@@ -25,7 +25,7 @@
         <div class="card-header comment-card-header">
           <span>Comment</span>
           <% if(currentUser) { %>
-            <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/new" class="btn btn-sm btn-success float-right">Leave Comment</a>
+            <button class="btn btn-sm btn-success float-right" id="leave-comment">Leave Comment</button>
           <% } %>
         </div>
         <div class="card-body">
@@ -44,12 +44,14 @@
             </div>
           <% }) %>
         </div>
-        <div class="mx-2">
-          <form action="comment-form" class="">
-            <textarea name="" id="" rows="1" class="form-control comment-textarea" placeholder="Leave comment..."></textarea>
-            <button class="btn btn-primary btn-sm btn-comment-submit float-right">Submit</button>
-          </form>
-        </div>
+        <% if (currentUser) { %>
+          <div class="comment-form mx-2">
+            <form action="" class="">
+              <textarea name="" id="" rows="1" class="form-control comment-textarea" placeholder="Leave comment..."></textarea>
+              <button class="btn btn-primary btn-sm btn-comment-submit float-right">Submit</button>
+            </form>
+          </div>
+        <% } %>
       </div>
       <!-- Go Back -->
       <a href="/bunnies/<%= bunnyID %>" class="btn btn-block btn-info mb-2">Go Back</a>
