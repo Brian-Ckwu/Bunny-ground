@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
     bunny: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bunny'
-    }
+    },
+    favorites: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Bunny'
+        }
+    ]
 })
 
 userSchema.plugin(passportLocalMongoose);

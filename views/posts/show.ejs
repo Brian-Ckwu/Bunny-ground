@@ -14,9 +14,9 @@
           <!-- Edit/Delete buttons -->
           <% if (currentUser && post.author.equals(currentUser._id)) { %>
             <form action="/bunnies/<%= bunnyID %>/posts/<%= post._id%>?_method=DELETE" method="POST" class="delete-form mx-2">
-              <button class="btn btn-sm btn-danger float-right">Delete</button>
+              <button class="btn btn-sm btn-danger float-right"><i class="fas fa-trash-alt"></i></button>
             </form>
-            <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/edit" class="btn btn-sm btn-warning float-right mx-2">Edit</a>
+            <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/edit" class="btn btn-sm btn-warning float-right mx-2"><i class="fas fa-edit"></i></a>
           <% } %>
         </div>
       </div>
@@ -36,9 +36,9 @@
               <!-- Edit/Delete buttons -->
               <% if(currentUser && comment.author._id.equals(currentUser._id)) { %>
                 <form action="/bunnies/<%= bunnyID %>/posts/<%= post._id%>/comments/<%= comment._id %>?_method=DELETE" method="POST" class="delete-form mx-2">
-                  <button class="btn btn-sm btn-danger float-right">Delete</button>
+                  <button class="btn btn-sm btn-danger float-right"><i class="fas fa-trash-alt"></i></button>
                 </form>
-                <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-warning float-right mx-2">Edit</a>
+                <a href="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-warning float-right mx-2"><i class="fas fa-edit"></i></a>
               <% } %>
               <hr>
             </div>
@@ -46,8 +46,8 @@
         </div>
         <% if (currentUser) { %>
           <div class="comment-form mx-2">
-            <form action="" class="">
-              <textarea name="" id="" rows="1" class="form-control comment-textarea" placeholder="Leave comment..."></textarea>
+            <form action="/bunnies/<%= bunnyID %>/posts/<%= post._id %>/comments" method="POST">
+              <textarea name="comment[text]" rows="1" class="form-control comment-textarea" placeholder="Leave comment..."></textarea>
               <button class="btn btn-primary btn-sm btn-comment-submit float-right">Submit</button>
             </form>
           </div>

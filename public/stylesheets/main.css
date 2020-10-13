@@ -2,6 +2,14 @@
   background-color: pink;
 } */
 
+.jumbotron-title {
+  font-family: 'Fredoka One', cursive;
+}
+
+.jumbotron-text {
+  font-family: 'Itim', cursive;
+}
+
 .blue {
   color: steelblue;
 }
@@ -91,6 +99,14 @@
 }
 
 .comment-form {
+  display: none;
+}
+
+.favorite-add-btn {
+  display: inline;
+}
+
+.favorite-remove-btn {
   display: none;
 }
 

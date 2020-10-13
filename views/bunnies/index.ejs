@@ -3,8 +3,8 @@
   <!-- Jumbotron -->
   <div class="container mb-4">
     <div class="jumbotron">
-      <h1 class="display-4">Welcome To BunnyGround!</h1>
-      <p class="lead">This is a friendly place for bunnies to show off their loveliness, make new friends, and more!</p>
+      <h1 class="display-4 jumbotron-title">Welcome To BunnyGround!</h1>
+      <p class="lead jumbotron-text">This is a friendly place for bunnies to show off their loveliness, make new friends, and more!</p>
       <hr class="my-4">
       <a href="/bunnies/new" class="btn btn-success btn-lg">Add Your Bunny</a>
       <% if (currentUser) { %>
@@ -24,7 +24,16 @@
             <div class="card-body text-center">
               <h5 class="card-title"><%= bunny.name %></h5>
               <!-- <p class="card-text"></p> -->
-              <a href="/bunnies/<%= bunny._id %>" class="btn btn-sm btn-info">More Info</a>
+              <a href="/bunnies/<%= bunny._id %>" class="btn btn-sm btn-outline-info">More Info</a>
+              <!-- Hide the favorite button if not logged in -->
+              <% if (currentUser) { %>
+                <form action="/bunnies/favorites/<%= bunny._id %>/add" method="POST" class="favorite-add-btn">
+                  <button class="btn btn-sm btn-outline-danger"><i class="far fa-heart"></i></button>
+                </form>
+                <form action="/bunnies/favorites/<%= bunny._id %>/remove" method="POST" class="favorite-remove-btn">
+                  <button class="btn btn-sm btn-outline-danger"><i class="fas fa-heart"></i></button>
+                </form>
+              <% } %>
             </div>
           </div>
         </div>

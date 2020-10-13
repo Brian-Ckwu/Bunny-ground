@@ -71,4 +71,39 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// Add to favorites
+router.post('/favorites/:id/add', middlewares.isLoggedIn, (req, res) => {
+    const userID = req.user._id;
+    const bunnyID = req.params.id;
+    // Use updateOne instead of findById then push/save
+    User.updateOne({_id: userID}, {$push: {favorites: bunnyID}})
+        .then(() => {
+            // console.log(`Add ${bunnyID} to favorites`);
+            res.status(204).send();
+            // Window message: successfully added to favorites
+        })
+        .catch((err) => {
+            console.log(`Error from User.updateOne(): ${err.message}`);
+            req.flash('error', 'Fail to add to favorites. There might be a problem.');
+            res.redirect('/bunnies');
+        })
+})
+
+// Remove from favorites
+router.post('/favorites/:id/remove', middlewares.isLoggedIn, (req, res) => {
+    const userID = req.user._id;
+    const bunnyID = req.params.id;
+    User.updateOne({_id: userID}, {$pull: {favorites: bunnyID}})
+        .then(() => {
+            // console.log(`Remove ${bunnyID} from favorites`);
+            res.status(204).send();
+            // Window message: successfully removed from favorites
+        })
+        .catch((err) => {
+            console.log(`Error from User.updateOne(): ${err.message}`);
+            req.flash('error', 'Fail to remove from favorites. There might be a problem.');
+            res.redirect('/bunnies');
+        })
+})
+
 module.exports = router;
