@@ -33,21 +33,23 @@ router.get('/login', (req, res) => {
     res.render('login');
 })
 
-router.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+router.post('/login', async function(req, res, next) {
+    await passport.authenticate('local', function(err, user, info) {
         if (err) {
             return next(err);
         }
         if (!user) {
-            req.flash('error', 'Please enter the correct username and password')
-            return res.redirect('/login');
+            req.flash('error', 'Please enter the correct username and password');
+            res.redirect('/login');
+            return
         }
         req.logIn(user, function(err) {
             if (err) {
                 return next(err);
             }
             req.flash('success', 'You have logged in successfully!')
-            return res.redirect(req.prevPrevPath);
+            res.redirect(req.session.prevPrevPath)
+            return
         });
     })(req, res, next);
 });
