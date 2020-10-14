@@ -11,17 +11,18 @@ router.get('/', (req, res) => {
         if (err) {
             console.log(`Error from Bunny.find(): ${err}`);
         }   else {
+            const bunnies = randomizeArray(foundBunnies);
             if (req.isAuthenticated()) {
                 const userID = req.user._id;
                 User.findById(userID, (err, foundUser) => {
                     if (err) {
                         console.log(`Error from User.findById(): ${err}`);
                     }   else {
-                        res.render('./bunnies/index', {bunnies: foundBunnies, user: foundUser});
+                        res.render('./bunnies/index', {bunnies: bunnies, user: foundUser});
                     }
                 })
             }   else {
-                res.render('./bunnies/index', {bunnies: foundBunnies});
+                res.render('./bunnies/index', {bunnies: bunnies});
             }
         }
     })
@@ -107,3 +108,13 @@ router.post('/favorites/:id/remove', middlewares.isLoggedIn, (req, res) => {
 })
 
 module.exports = router;
+
+function randomizeArray(arr) {
+    const newArr = [];
+    while (arr.length > 0) {
+        const removeIndex = Math.floor(arr.length * Math.random()); 
+        const e = arr.splice(removeIndex, 1)[0];
+        newArr.push(e);
+    }
+    return newArr;
+}

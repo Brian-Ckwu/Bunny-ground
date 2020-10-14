@@ -33,7 +33,11 @@
      - Similar one: the login after failure of adding to favorites will redirect to /bunnies/favorites/:id/add (GET but not POST)
    # mt-15vh --> mt-13vh (ok)
    # Where to display bunny's description?
-   # Display the bunnies on the index page randomly
+   # Display the bunnies on the index page randomly (ok)
    # Add to favorites function
-     - Front-end button (ok)
-     - Front-end notification
+     - Front-end:
+       // Buttons (ok)
+       // Notification of added/removed
+     - Back-end:
+       // MongoDB (ok)
+       // Favorite route: display the favorite bunnies
