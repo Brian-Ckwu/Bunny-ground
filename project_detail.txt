@@ -24,10 +24,12 @@
      (1) Comment.author population (ok)
 
 # Flash message (ok)
-
+# Landing page animation (ok)
 
 // Issues:
-   # Prevent the user from create another bunny if he/she already has one
+   # Prevent the user from create another bunny if he/she already has one (ok)
+     - Protect get route (ok)
+     - Protect post route (ok)
    # Both posts & comments: an empty line typed in the textarea won't be displayed in the show page
    # After one login failure, a login success will redirect the user to the login page
      - Similar one: the login after failure of adding to favorites will redirect to /bunnies/favorites/:id/add (GET but not POST)

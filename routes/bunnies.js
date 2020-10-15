@@ -30,7 +30,12 @@ router.get('/', (req, res) => {
 
 // NEW - show the form of creating the bunny's profile
 router.get('/new', middlewares.isLoggedIn, (req, res) => {
-    res.render('./bunnies/new');
+    if (req.user.bunny) {
+        req.flash('error', 'Don\'t be so greedy. You already have a bunny!');
+        res.redirect('/bunnies');
+    }   else {
+        res.render('./bunnies/new');
+    }
 })
 
 // CREATE - create the bunny's profile according to the form
@@ -38,24 +43,30 @@ router.post('/', middlewares.isLoggedIn, (req, res) => {
     const userID   = req.user._id;
     const newBunny = req.body.bunny;
     newBunny.owner = userID;
-    Bunny.create(newBunny, (err, createdBunny) => {
+    // New codes
+    User.findById(userID, (err, foundUser) => {
         if (err) {
-            console.log(err);
-            res.redirect('/bunnies/new');
+            console.log(`Error from User.findById(): ${err.message}`);
+            res.redirect('/bunnies');
         }   else {
-            User.findById(userID, (err, foundUser) => {
-                if (err) {
-                    console.log(`Error from User.findById(): ${err}`);
-                    res.redirect('/bunnies');
-                }   else {
-                    foundUser.bunny = createdBunny;
-                    foundUser.save()
-                        .then(() => {
-                            req.flash('success', 'You have added your bunny successfully!');
-                            res.redirect('/bunnies');
-                        })
-                }
-            })
+            if (foundUser.bunny) {
+                req.flash('error', 'Don\'t be so greedy. You already have a bunny!');
+                res.redirect('/bunnies');
+            }   else {
+                Bunny.create(newBunny, (err, createdBunny) => {
+                    if (err) {
+                        console.log(`Error from Bunny.create(): ${err.message}`);
+                        res.redirect('/bunnies');
+                    }   else {
+                        foundUser.bunny = createdBunny;
+                        foundUser.save()
+                            .then(() => {
+                                req.flash('success', 'You have added your bunny successfully!');
+                                res.redirect('/bunnies');
+                            })
+                    }
+                })
+            }
         }
     })
 })
