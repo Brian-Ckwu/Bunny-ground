@@ -12,13 +12,13 @@
       <% } else { %>
         <a href="/login" class="btn btn-primary btn-lg">My Bunny Hutch</a>
       <% } %>
-      <a href="/bunnies/favorites" class="btn btn-danger btn-lg">My favorites</a>
+      <a href="/bunnies" class="btn btn-info btn-lg">All bunnies</a>
     </div>
   </div>
   <!-- Grid system for displaying bunnies -->
   <div class="container">
     <div class="row">
-      <% bunnies.forEach((bunny) => { %>
+      <% user.favorites.forEach((bunny) => { %>
         <div class="col-sm-6 col-lg-3">
           <div class="card index-card">
             <img src="<%= bunny.image %>" class="card-img-top" alt="...">
@@ -27,22 +27,20 @@
               <!-- <p class="card-text"></p> -->
               <a href="/bunnies/<%= bunny._id %>" class="btn btn-sm btn-outline-info">More Info</a>
               <!-- Hide the favorite button if not logged in -->
-              <% if (currentUser) { %>
-                <% if (currentUser.favorites.includes(bunny._id)) { %>
-                  <form action="/bunnies/favorites/<%= bunny._id %>/add" method="POST" class="favorite-add-btn" style="display: none;">
-                    <button class="btn btn-sm btn-outline-danger"><i class="far fa-heart"></i></button>
-                  </form>
-                  <form action="/bunnies/favorites/<%= bunny._id %>/remove" method="POST" class="favorite-remove-btn">
-                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-heart"></i></button>
-                  </form>
-                <% }  else { %>
-                  <form action="/bunnies/favorites/<%= bunny._id %>/add" method="POST" class="favorite-add-btn">
-                    <button class="btn btn-sm btn-outline-danger"><i class="far fa-heart"></i></button>
-                  </form>
-                  <form action="/bunnies/favorites/<%= bunny._id %>/remove" method="POST" class="favorite-remove-btn" style="display: none;">
-                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-heart"></i></button>
-                  </form>
-                <% } %>
+              <% if (currentUser.favorites.includes(bunny._id)) { %>
+                <form action="/bunnies/favorites/<%= bunny._id %>/add" method="POST" class="favorite-add-btn" style="display: none;">
+                  <button class="btn btn-sm btn-outline-danger"><i class="far fa-heart"></i></button>
+                </form>
+                <form action="/bunnies/favorites/<%= bunny._id %>/remove" method="POST" class="favorite-remove-btn">
+                  <button class="btn btn-sm btn-outline-danger"><i class="fas fa-heart"></i></button>
+                </form>
+              <% }  else { %>
+                <form action="/bunnies/favorites/<%= bunny._id %>/add" method="POST" class="favorite-add-btn">
+                  <button class="btn btn-sm btn-outline-danger"><i class="far fa-heart"></i></button>
+                </form>
+                <form action="/bunnies/favorites/<%= bunny._id %>/remove" method="POST" class="favorite-remove-btn" style="display: none;">
+                  <button class="btn btn-sm btn-outline-danger"><i class="fas fa-heart"></i></button>
+                </form>
               <% } %>
             </div>
           </div>

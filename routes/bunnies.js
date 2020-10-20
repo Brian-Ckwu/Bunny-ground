@@ -71,6 +71,19 @@ router.post('/', middlewares.isLoggedIn, (req, res) => {
     })
 })
 
+// FAVORITES route (this route must be placed before the SHOW route)
+router.get('/favorites', middlewares.isLoggedIn, (req, res) => {
+    const userID = req.user._id;
+    User.findById(userID).populate('favorites').exec((err, foundUser) => {
+        if (err) {
+            console.log(`Error from User.findById(): ${err.message}`);
+            res.redirect('/bunnies');
+        }   else {
+            res.render('./bunnies/favorites', {user: foundUser});
+        }
+    })
+})
+
 // SHOW - show a specific bunny
 router.get('/:id', (req, res) => {
     const bunnyID = req.params.id;
