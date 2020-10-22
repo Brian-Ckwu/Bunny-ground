@@ -17,7 +17,7 @@ favoriteAddButtons.forEach((addButton, index) => {
   addButton.addEventListener('click', function() {
     this.parentElement.style.display = 'none';
     favoriteRemoveButtons[index].parentElement.style.display = 'inline';
-    toggleMyModal(myModalAdd, 1000);
+    toggleMyModal(myModalAdd, 700);
   })
 })
 
@@ -25,7 +25,7 @@ favoriteRemoveButtons.forEach((removeButton, index) => {
   removeButton.addEventListener('click', function() {
     this.parentElement.style.display = 'none';
     favoriteAddButtons[index].parentElement.style.display = 'inline';
-    toggleMyModal(myModalRemove, 1000);
+    toggleMyModal(myModalRemove, 700);
   })
 })
 

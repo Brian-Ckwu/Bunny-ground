@@ -162,3 +162,9 @@ html, body {
 #navbar-container {
   position: relative;
 }
+
+#bunny-edit-btn {
+  padding: 0.3rem 0.4rem;
+  padding-left: 0.45rem;
+  font-size: 0.7rem;
+}

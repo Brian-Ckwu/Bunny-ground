@@ -1,3 +1,8 @@
+# Bunnies
+  * Edit function
+    // Front-end
+    // Back-end
+
 # Posts
   // Back-end
      - Model (ok)
@@ -39,8 +44,10 @@
    # Add to favorites function
      - Front-end:
        // Buttons (ok)
-       // Notification of added/removed
+       // Notification of added/removed (ok)
        // If added to the favorites, display the solid hearts (ok)
+       // Display the notification on the specific bunny instead of the whole screen
      - Back-end:
        // MongoDB (ok)
        // Favorite route: display the favorite bunnies (ok)
+

@@ -1,0 +1,30 @@
+<%- include ('../partials/header') %>
+  <div class="container form-container mb-8vh">
+    <form action="/bunnies/<%= bunny._id%>?_method=PUT" method="POST">
+      <h1 class="text-center mb-3">Edit Your Bunny</h1>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="bunny[name]" value="<%= bunny.name %>"> <!-- Whether protect this field from editing? -->
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="sex">Sex</label>
+          <input type="text" class="form-control" id="sex" name="bunny[sex]" value="<%= bunny.sex %>" placeholder="Male or Female"> <!-- Protect this field from editing -->
+        </div>
+        <div class="form-group col">
+          <label for="age">Age</label>
+          <input type="text" class="form-control" id="age" name="bunny[age]" value="<%= bunny.age %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <input type="text" class="form-control" id="image" name="bunny[image]" value="<%= bunny.image %>" placeholder="ImageURL">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" rows="4" name="bunny[description]"><%= bunny.description %></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+    </form>
+  </div>
+<%- include ('../partials/footer') %>

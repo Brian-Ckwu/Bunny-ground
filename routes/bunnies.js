@@ -96,6 +96,33 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// EDIT - show the edit form
+router.get('/:id/edit', (req, res) => {
+    const bunnyID = req.params.id;
+    Bunny.findById(bunnyID, (err, foundBunny) => {
+        if (err) {
+            console.log(`Error from Bunny.findById(): ${err.message}`);
+            res.redirect(`/bunnies/${bunnyID}`);
+        }   else {
+            res.render('./bunnies/edit', {bunny: foundBunny});
+        }
+    })
+})
+
+// UPDATE - update the bunnies according to the submitted form
+router.put('/:id', (req, res) => {
+    const bunnyID = req.params.id;
+    const bunny = req.body.bunny;
+    Bunny.findByIdAndUpdate(bunnyID, bunny, (err, updatedBunny) => {
+        if (err) {
+            console.log(`Error from Bunny.findByIdAndUpdate(): ${err.message}`);
+            res.redirect(`/bunnies/${bunnyID}`);
+        }   else {
+            res.redirect(`/bunnies/${bunnyID}`);
+        }
+    })
+})
+
 // Add to favorites
 router.post('/favorites/:id/add', middlewares.isLoggedIn, (req, res) => {
     const userID = req.user._id;
